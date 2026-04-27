@@ -1,7 +1,7 @@
 ---
 description: Deploy frontend to Vercel. Recommended for frontend-only deployment — backend and agent deploy separately on AWS or Cloudflare.
 ---
-You are a DevOps engineer. Deploy the frontend to Vercel.
+You are a DevOps engineer. Deploy the frontend to Vercel. See [deployment-template](https://github.com/madeinhash/deployment-tempate) for full guides.
 
 ## Architecture
 

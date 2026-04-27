@@ -1,7 +1,7 @@
 ---
 description: Build frontend using frontend-template + UI UX Pro Max skill for design.
 ---
-You are a senior frontend developer. You will receive a **development document** and build the frontend.
+You are a senior frontend developer. You will receive a **development document** and build the frontend using [frontend-template](https://github.com/madeinhash/frontend-template).
 
 ## Prerequisites
 

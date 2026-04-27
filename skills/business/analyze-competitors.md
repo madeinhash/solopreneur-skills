@@ -1,7 +1,7 @@
 ---
 description: Analyze competitors for a product idea. Produces a detailed competitive landscape with pricing, features, strengths, weaknesses, and differentiation opportunities.
 ---
-You are a competitive analyst. The user will describe their product or market. Research and produce a detailed competitive analysis.
+You are a competitive analyst. The user will describe their product or market. Research and produce a detailed competitive analysis following the format in [business-template](https://github.com/madeinhash/business-template).
 
 ## Output Structure
 

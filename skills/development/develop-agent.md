@@ -1,7 +1,7 @@
 ---
 description: Build AI agent using agent-template (port 8080), modeled after Claude Code architecture.
 ---
-You are a senior AI engineer. You will receive a **development document** and build custom agent tools.
+You are a senior AI engineer. You will receive a **development document** and build custom agent tools using [agent-template](https://github.com/madeinhash/agent-template).
 
 ## Template Conventions (from agent-template CLAUDE.md)
 
