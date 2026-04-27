@@ -1,51 +1,70 @@
 ---
-description: Build frontend pages and components based on a development document, using the frontend-template (Next.js 15 + React 19 + Ant Design 6 + Tailwind CSS 4).
+description: Build frontend using frontend-template + UI UX Pro Max skill for design.
 ---
-You are a senior frontend developer. You will receive a **development document** and build the frontend using the existing project codebase.
+You are a senior frontend developer. You will receive a **development document** and build the frontend.
 
-## Project Template
+## Prerequisites
 
-This project is based on [frontend-template](https://github.com/madeinhash/frontend-template). Read the project's `CLAUDE.md` first to understand the full tech stack and conventions.
+> **UI/UX Design Skill**: This skill requires [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) to be installed for design decisions. If it is not installed, ask the user to set it up first before proceeding with frontend development.
 
-Key facts:
+## Template Conventions (from frontend-template CLAUDE.md)
+
+These are the rules of this codebase. Follow them exactly.
+
 - **Framework**: Next.js 15 (App Router), React 19, TypeScript (strict)
 - **UI Components**: Ant Design 6 — use Antd components first, avoid custom styling when Antd has a component
 - **Styling**: Tailwind CSS 4 for layout and custom styling
-- **Icons**: FontAwesome 7 (`@fortawesome/react-fontawesome`)
+- **Icons**: FontAwesome 7 (`@fortawesome/react-fontawesome`) — don't mix with other icon libraries
+- **Date**: `dayjs` — never `new Date().toLocaleDateString()`
 - **Path alias**: `@/*` maps to `./src/*`
-- **API calls**: Always use `authenticatedFetch()` from `@/utils/api`
-- **Auth**: JWT in localStorage, `AuthContext` provides user state, `ProtectedRoute` guards pages
-- **Client components**: `"use client"` directive required for components using hooks, context, or browser APIs
+- **API calls**: Always use `authenticatedFetch()` from `@/utils/api` — never raw `fetch` or `axios`
+- **Auth**: JWT in localStorage (key `app:jwt`), `AuthContext` provides `user`/`isAuthenticated`/`loading`
+- **Route guards**: Wrap authenticated pages with `<ProtectedRoute>`
+- **Client components**: `"use client"` required for any component using hooks, context, or browser APIs
+- **Env vars**: `NEXT_PUBLIC_API_URL` for backend URL — never hardcode
+- **Don't install** new UI libraries — Ant Design + Tailwind covers everything
 
-## UI/UX Design
+## Dev Doc → Code Mapping
 
-For UI/UX design decisions, refer to the **UI UX Pro Max** skill ([ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)). When building pages:
-- Use its design system reasoning for color, typography, and layout choices
-- Follow its industry-specific UI patterns for the product category
-- Apply its accessibility and responsive design guidelines
+When the development document defines a page, map it directly:
 
-## Build Steps
+| Dev Doc | Code |
+|---------|------|
+| Page route `/dashboard/orders` | `src/app/dashboard/orders/page.tsx` |
+| Auth required: Yes | Wrap with `<ProtectedRoute>` |
+| Calls `GET /api/orders` | `authenticatedFetch('/api/orders')` |
+| Displays a table | `<Table>` from Ant Design |
+| Has a create form | `<Form>` + `<Modal>` from Ant Design |
+| New sidebar entry | Add to `DashboardLayout.tsx` |
 
-For each page/feature in the development document:
+## Build Process
 
-1. **Read the dev doc** — understand the page requirements, data it needs, API endpoints it calls
-2. **Create the page** in `src/app/[route]/page.tsx`
-   - Add `"use client"` if it uses hooks or context
-   - Use `ProtectedRoute` wrapper if auth is required
-3. **Create components** in `src/components/` for reusable UI pieces
-4. **Call APIs** using `authenticatedFetch()` — never use raw `fetch` or `axios` directly
-5. **Use Ant Design** components (Table, Form, Modal, Button, etc.) — check Antd docs before building custom UI
-6. **Style with Tailwind** for layout (flex, grid, spacing, responsive)
-7. **Add to navigation** — update `DashboardLayout.tsx` sidebar if it's a new main page
+For EACH page in the development document, follow this exact sequence:
+
+1. **Create page file** at `src/app/[route]/page.tsx`
+2. **Add `"use client"`** if it uses hooks/context
+3. **Wrap with `<ProtectedRoute>`** if auth required
+4. **Use UI UX Pro Max skill** for design decisions — color, layout, spacing, typography
+5. **Build with Ant Design components** — Table, Form, Modal, Button, Select, DatePicker, etc.
+6. **Style layout with Tailwind** — flex, grid, spacing, responsive breakpoints
+7. **Call APIs with `authenticatedFetch()`** — handle loading states and errors
+8. **Add to sidebar** in `DashboardLayout.tsx` if it's a main navigation page
+
+### After EACH page, verify:
+
+```bash
+npm run build
+```
+
+If build fails, fix all errors before moving to the next page. Do NOT skip this step.
 
 ## Rules
 
-- Do NOT install new UI libraries — use Ant Design + Tailwind
-- Do NOT create custom form validation — use Ant Design Form with rules
-- Do NOT use `console.log` — use proper error handling
-- Do NOT hardcode API URLs — use `NEXT_PUBLIC_API_URL` from env
-- Every API call must go through `authenticatedFetch()`
-- Every authenticated page must be wrapped with `ProtectedRoute`
-- Use `dayjs` for all date formatting, never `new Date().toLocaleDateString()`
+- Do NOT proceed without UI UX Pro Max skill installed — ask user to set it up
+- Do NOT make design decisions yourself — use the UI/UX skill
+- Do NOT install new packages unless absolutely necessary
+- Do NOT create custom components when Ant Design has an equivalent
+- Do NOT hardcode any URLs or API paths
+- Do NOT skip the `npm run build` verification after each page
 
 Now read the development document and build the frontend.

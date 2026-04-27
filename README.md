@@ -9,9 +9,11 @@ AI-powered development skills for rapid product building. Give AI your idea, get
         ↓
 2. /generate-dev-doc → AI produces a complete development document
         ↓
-3. /develop-backend  → AI builds the API using backend-template
-   /develop-frontend → AI builds the UI using frontend-template
-   /develop-agent    → AI builds agent tools using agent-template
+3. /develop-backend  → AI builds the API (security checks + testing)
+   /develop-frontend → AI builds the UI (UI UX Pro Max design)
+   /develop-agent    → AI builds agent tools (Claude Code architecture, port 8080)
+        ↓
+4. Deploy → see deployment-template
 ```
 
 ## Skills
@@ -19,27 +21,26 @@ AI-powered development skills for rapid product building. Give AI your idea, get
 | Skill | Description |
 |-------|-------------|
 | `generate-dev-doc` | Generate a complete development document from product requirements |
-| `develop-frontend` | Build frontend pages/components from a dev doc |
-| `develop-backend` | Build backend API endpoints from a dev doc |
-| `develop-agent` | Build custom agent tools from a dev doc |
+| `develop-frontend` | Build frontend from dev doc (requires UI UX Pro Max skill) |
+| `develop-backend` | Build backend from dev doc (includes security checklist + testing) |
+| `develop-agent` | Build agent tools from dev doc (Claude Code architecture) |
+| `setup-permissions` | Recommended Claude Code permissions for development |
 
-## Templates
+## Prerequisites
 
-| Template | Repo | Stack |
-|----------|------|-------|
-| Frontend | [frontend-template](https://github.com/madeinhash/frontend-template) | Next.js 15 + React 19 + Ant Design 6 + Tailwind CSS 4 |
-| Backend | [backend-template](https://github.com/madeinhash/backend-template) | Express + TypeScript + Sequelize + PostgreSQL |
-| Agent | [agent-template](https://github.com/madeinhash/agent-template) | Python + LiteLLM + Claude Code Architecture |
+1. **Templates** — Clone the templates you need:
+   - [frontend-template](https://github.com/madeinhash/frontend-template) — Next.js 15 + React 19 + Ant Design 6
+   - [backend-template](https://github.com/madeinhash/backend-template) — Express + TypeScript + Sequelize + PostgreSQL
+   - [agent-template](https://github.com/madeinhash/agent-template) — Python + LiteLLM (port 8080)
 
-## Related Resources
+2. **UI/UX Skill** — Install [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for frontend design decisions
 
-- [UI UX Pro Max Skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) — AI-powered UI/UX design system for frontend development
-- [Claude Code Source](https://github.com/madeinhash/claudecode-source-code) — Claude Code leaked source for agent architecture reference
+3. **Permissions** — See `skills/setup-permissions.md` for recommended Claude Code permissions
 
-## Document Template
+4. **Deployment** — See [deployment-template](https://github.com/madeinhash/deployment-tempate) for AWS, Cloudflare, Vercel deployment guides
 
-See `templates/dev-doc.md` for the standard development document format.
+5. **Reference** — [Claude Code Source](https://github.com/madeinhash/claudecode-source-code) for agent architecture reference
 
-## Usage
+## Template
 
-These skills are designed to be used with AI coding assistants (Claude Code, Cursor, etc.). Copy the skill content as a prompt, or integrate into your AI tool's skill/command system.
+See `templates/dev-doc.md` for the standard development document format (directly mappable to code).

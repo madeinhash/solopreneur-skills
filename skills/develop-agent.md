@@ -1,95 +1,77 @@
 ---
-description: Build custom AI agent tools and skills based on a development document, using the agent-template (Python + LiteLLM + Claude Code architecture).
+description: Build AI agent using agent-template (port 8080), modeled after Claude Code architecture.
 ---
-You are a senior AI engineer. You will receive a **development document** and build custom agent tools using the existing project codebase.
+You are a senior AI engineer. You will receive a **development document** and build custom agent tools.
 
-## Project Template
+## Template Conventions (from agent-template CLAUDE.md)
 
-This project is based on [agent-template](https://github.com/madeinhash/agent-template). Read the project's `CLAUDE.md` first to understand the full architecture. The architecture is modeled after Claude Code — the full Claude Code source is at [claudecode-source-code](https://github.com/madeinhash/claudecode-source-code) for reference.
+These are the rules of this codebase. Follow them exactly.
 
-Key facts:
 - **Language**: Python 3.11+, async-first, strict typing
-- **LLM**: LiteLLM (multi-provider: OpenAI, Anthropic, Azure, etc.)
-- **Architecture**: Agent Loop → Tool System → Permission System
-- **Base class**: All tools inherit from `Tool` in `src/tools/base.py`
-- **Registry**: Tools registered in `src/tools/registry.py` → `_build_default_registry()`
-- **Config**: Pydantic Settings in `src/config.py` — never read `os.environ` directly
-- **Logging**: structlog — never `print()` in production
+- **LLM**: LiteLLM (unified interface — set `LLM_MODEL` in `.env`)
+- **Port**: 8080
+- **Architecture**: Agent Loop → Tool System → Permission System (modeled after Claude Code)
+- **Tool base class**: `Tool` ABC in `src/tools/base.py` — ALL tools inherit from this
+- **Tool registry**: `src/tools/registry.py` → `_build_default_registry()` — tools MUST be registered here
+- **Config**: Pydantic Settings in `src/config.py` — never `os.environ`
+- **Logging**: structlog `logger` — never `print()`
+- **HTTP**: `httpx` (async) — never `requests`
+- **Claude Code source**: [claudecode-source-code](https://github.com/madeinhash/claudecode-source-code) for architecture reference
 
-## Build Steps
+Key Claude Code files to study:
+- `src/Tool.ts` — tool type system (schema, permissions, execution)
+- `src/tools/` — real tool implementations
+- `src/QueryEngine.ts` — agent loop
+- `src/hooks/toolPermission/` — permission pipeline
 
-For each tool in the development document:
+## Dev Doc → Code Mapping
 
-### Step 1: Create Tool File
+When the development document defines an agent tool, map it directly:
 
-Create `src/tools/builtin/[tool_name].py`:
+| Dev Doc | Code File | What To Do |
+|---------|-----------|------------|
+| Tool `search_db` | `src/tools/builtin/search_db.py` | Inherit `Tool`, implement `name`, `description`, `parameters`, `execute()` |
+| Tool `search_db` | `src/tools/registry.py` | Add `from src.tools.builtin.search_db import SearchDbTool` + `SearchDbTool()` to list |
+| Skill `analyze` | `skills/analyze.md` | Markdown file with YAML frontmatter |
+| System prompt change | `prompts/system.md` | Add tool usage guidance |
 
-```python
-from typing import Any
-from src.tools.base import Tool
-from src.types import ToolResult
+## Build Process
 
-class MyTool(Tool):
-    @property
-    def name(self) -> str:
-        return "my_tool"
+For EACH tool in the development document:
 
-    @property
-    def description(self) -> str:
-        return "Clear description — the LLM reads this to decide when to call it."
+### 1. Create Tool
+Create `src/tools/builtin/[name].py`:
+- `name` — unique identifier
+- `description` — the LLM reads this to decide when to call it. Be precise and specific.
+- `parameters` — JSON Schema, sent to LLM as function schema
+- `is_read_only` — set `True` if tool only reads data (enables parallel execution)
+- `execute(args)` — implement tool logic, return `ToolResult(output=str, is_error=bool)`
 
-    @property
-    def parameters(self) -> dict[str, Any]:
-        return {
-            "type": "object",
-            "properties": {
-                "param1": {"type": "string", "description": "What this param does"},
-            },
-            "required": ["param1"],
-        }
-
-    @property
-    def is_read_only(self) -> bool:
-        return False  # True if tool only reads data
-
-    async def execute(self, args: dict[str, Any]) -> ToolResult:
-        # implement tool logic
-        return ToolResult(output="result")
-```
-
-### Step 2: Register Tool
-
+### 2. Register Tool
 In `src/tools/registry.py` → `_build_default_registry()`:
-- Add import: `from src.tools.builtin.my_tool import MyTool`
-- Add to the list: `MyTool()`
+- Add import
+- Add instance to the list
 
-**Without registration, the agent will NOT see the tool.**
+**Unregistered tools are invisible to the agent.**
 
-### Step 3: Create Skills (optional)
+### 3. Create Skills (if needed)
+Create `skills/[name].md` with frontmatter.
 
-Create markdown files in `skills/` with YAML frontmatter:
+### After EACH tool, verify:
 
-```markdown
----
-description: What this skill does
-allowed_tools: [my_tool, read_file, bash]
----
-Your prompt content for the agent...
+```bash
+pytest
 ```
 
-### Step 4: Update System Prompt (if needed)
-
-Edit `prompts/system.md` to add guidance about when and how to use the new tools.
+If tests fail, fix before moving to the next tool. Do NOT skip this step.
 
 ## Rules
 
-- **All tools inherit from `Tool`** — never create standalone functions
-- **Always register** in `_build_default_registry()` — unregistered tools are invisible
-- **Tool description is critical** — the LLM uses it to decide when to call the tool. Be precise.
-- **Set `is_read_only = True`** for tools that only read data — enables parallel execution
-- **Override `check_permissions()`** for tools that need fine-grained permission control
-- **Return `ToolResult`** from `execute()` — set `is_error=True` for failures
-- Use `structlog` logger — never `print()`
-- Use `httpx` for HTTP requests (async), never `requests`
+- Do NOT create standalone functions — always inherit from `Tool`
+- Do NOT forget to register — unregistered = invisible
+- Do NOT write vague tool descriptions — the LLM depends on them
+- Do NOT use `requests` — use `httpx` (async)
+- Do NOT use `print()` — use `structlog`
+- Do NOT skip `pytest` after each tool
 
-Now read the development document and build the agent tools.
+Now read the development document and build the agent.

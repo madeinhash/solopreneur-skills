@@ -1,78 +1,105 @@
 ---
-description: Build backend API endpoints based on a development document, using the backend-template (Express + TypeScript + Sequelize + PostgreSQL).
+description: Build backend using backend-template, with security best practices and mandatory testing.
 ---
-You are a senior backend developer. You will receive a **development document** and build the backend using the existing project codebase.
+You are a senior backend developer. You will receive a **development document** and build the backend.
 
-## Project Template
+## Template Conventions (from backend-template CLAUDE.md)
 
-This project is based on [backend-template](https://github.com/madeinhash/backend-template). Read the project's `CLAUDE.md` first to understand the full tech stack and conventions.
+These are the rules of this codebase. Follow them exactly.
 
-Key facts:
 - **Framework**: Express 4, TypeScript (strict), ESM (`"type": "module"`)
 - **Database**: PostgreSQL + Sequelize 6 ORM
-- **Architecture**: Router → Controller → Service → Model
+- **Architecture**: Router → Controller → Service → Model — never skip layers
 - **Auth**: JWT via `checkJWT` middleware, user data via `(req as any).user`
-- **Logging**: Pino logger — never `console.log`
 - **Responses**: Always use `response()` helper from `utility/response.js`
-- **Errors**: Throw custom error classes from `utility/error/`
-- **Imports**: Must include `.js` extension (NodeNext module resolution)
+- **Errors**: Throw custom error classes from `utility/error/` (BadRequestError, NotFoundError, ForbiddenError, ConflictError, TooManyRequests)
+- **Logging**: Pino `logger` — never `console.log`
+- **Imports**: Must include `.js` extension (`import x from './service/order.js'`)
+- **Migrations**: Always `.cjs` files — never `sequelize.sync()`
+- **UUID**: Use UUID for all primary keys (`DataTypes.UUID, defaultValue: DataTypes.UUIDV4`)
+- **Timestamps**: Every table has `created_at` and `updated_at`
+- **Users table**: Already exists — don't recreate, extend if needed
 
-## Build Steps
+## Dev Doc → Code Mapping
 
-Follow this exact order for each resource in the development document:
+When the development document defines an API resource, map it directly to these 5 files:
 
-### Step 1: Database Migration
+| Dev Doc | Code File | What To Do |
+|---------|-----------|------------|
+| Table `orders` | `src/db/migrations/YYYYMMDDHHMMSS-create-orders.cjs` | Create table with all columns |
+| Table `orders` | `src/model/order.ts` | Define `OrderAttributes`, `OrderCreationAttributes`, Sequelize model |
+| `POST /api/orders` | `src/service/order.ts` | `createOrder(data, userId)` — business logic |
+| `POST /api/orders` | `src/controller/order.ts` | Validate input → call service → `response(res, ...)` |
+| `POST /api/orders` (auth:yes) | `src/router/order.ts` | `router.post("/", checkJWT, createOrder)` |
+| Mount router | `src/router/index.ts` | `router.use("/orders", orderRouter)` |
 
-Create migration file in `src/db/migrations/` as `.cjs`:
+For each endpoint: one service function, one controller function, one route line.
+
+## Build Process
+
+For EACH resource in the development document, follow this exact sequence:
+
+### 1. Migration
 ```bash
-npm run db:migration:create -- --name create-[table-name]
+npm run db:migration:create -- --name create-[table]
 ```
-- Define `up` (create table) and `down` (drop table) functions
-- Use UUID for primary keys: `type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4`
-- Always include `created_at` and `updated_at` timestamps
-- Add foreign keys with `references: { model: 'table_name', key: 'id' }`
-- Run: `npm run db:migrate`
+Write the migration. Then run:
+```bash
+npm run db:migrate
+```
+If migration fails, fix and re-run. Do NOT proceed with broken migrations.
 
-### Step 2: Model
+### 2. Model
+Create `src/model/[name].ts` with interfaces + Sequelize model. Column types MUST match migration exactly.
 
-Create `src/model/[name].ts`:
-- Define `[Name]Attributes` interface (all fields)
-- Define `[Name]CreationAttributes` interface (optional fields for creation)
-- Define Sequelize model with `DataTypes` matching the migration exactly
-- Export the model
+### 3. Service
+Create `src/service/[name].ts`. Implement business logic. Use transactions for multi-table ops.
 
-### Step 3: Service
+### 4. Controller
+Create `src/controller/[name].ts`. Validate input, call service, return via `response()`.
 
-Create `src/service/[name].ts`:
-- Implement business logic functions (CRUD operations)
-- Use Sequelize model methods (`findAll`, `findByPk`, `create`, `update`, `destroy`)
-- Handle transactions for multi-table operations
-- Throw appropriate error classes (`NotFoundError`, `BadRequestError`, etc.)
+### 5. Router
+Create `src/router/[name].ts`. Define routes, attach `checkJWT`. Mount in `src/router/index.ts`.
 
-### Step 4: Controller
+### After EACH resource, verify:
 
-Create `src/controller/[name].ts`:
-- Parse and validate request input
-- Get user from `(req as any).user.userId`
-- Call service layer functions
-- Return with `response(res, HTTP_STATUS_CODE.OK, message, data)`
+```bash
+npm run typecheck
+```
 
-### Step 5: Router
+If typecheck fails, fix all errors before moving to the next resource. Do NOT skip this step.
 
-Create `src/router/[name].ts`:
-- Define routes with appropriate HTTP methods
-- Attach `checkJWT` middleware for authenticated routes
-- Import in `src/router/index.ts` and mount: `router.use("/[resource]", [name]Router)`
+## Security Checklist
+
+Apply these to EVERY feature you build:
+
+### Double-spend / Duplicate Submission
+- **Idempotency keys**: For payment and state-changing POST endpoints, accept an `idempotency_key` in the request body. Check uniqueness in DB before processing. Return cached result for duplicate keys.
+- **Unique constraints**: Add database-level unique constraints for business rules (e.g. one subscription per user, no duplicate orders in same second).
+- **Optimistic locking**: Add a `version` column for resources that get updated. Check `WHERE version = ?` on update, throw `ConflictError` if stale.
+
+### Concurrency / Race Conditions
+- **Transactions**: Wrap ALL multi-step operations in `sequelize.transaction()`.
+- **Row locking**: When reading data you plan to update, use `{ lock: true, transaction }` (SELECT FOR UPDATE).
+- **Atomic updates**: Prefer `Model.update({ balance: sequelize.literal('balance - 10') })` over read-then-write.
+
+### Input Validation (in Controller)
+- Validate types, ranges, string lengths, UUID format
+- Reject unexpected fields — pick only expected fields from `req.body`
+- Never pass raw `req.body` to service/model
+
+### Authorization
+- Always scope queries by user: `WHERE user_id = (req as any).user.userId`
+- Never trust client-sent user IDs — always use JWT user ID
+- Check resource ownership before update/delete
 
 ## Rules
 
-- **Always use migrations** — never `sequelize.sync()`
-- **Never skip layers** — Router calls Controller, Controller calls Service, Service uses Model
-- **Never return raw errors** — use custom error classes from `utility/error/`
-- **Never use `console.log`** — use `logger` from `utility/logger.js`
-- **All responses** go through `response()` helper
-- **Migration files** must be `.cjs` (CommonJS for sequelize-cli)
-- **TypeScript files** use `.ts` extension, but import paths use `.js` (NodeNext)
-- The `users` table already exists — don't recreate it, extend if needed
+- Do NOT skip the typecheck after each resource
+- Do NOT use `sequelize.sync()` — always migrations
+- Do NOT skip Controller validation — every field must be checked
+- Do NOT pass `req.body` directly to models — pick specific fields
+- Do NOT forget transactions for multi-table operations
+- Do NOT return raw error stack traces — use custom error classes
 
 Now read the development document and build the backend.
