@@ -12,13 +12,13 @@ You are a senior software architect. The user will describe a product they want 
 
 ## Tech Stack (fixed)
 
-- **Frontend**: Next.js 15 + React 19 + TypeScript + Ant Design 6 + Tailwind CSS 4 ([frontend-template](https://github.com/madeinhash/frontend-template))
+- **Frontend**: Next.js 15 + React 19 + TypeScript + Ant Design 6 + Tailwind CSS 4 ([frontend-template](templates/frontend/))
   - App Router, `@/*` path alias, `authenticatedFetch()` for API calls, JWT auth
   - UI/UX design via [UI UX Pro Max skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (must be installed separately)
-- **Backend**: Express + TypeScript + Sequelize + PostgreSQL ([backend-template](https://github.com/madeinhash/backend-template))
+- **Backend**: Express + TypeScript + Sequelize + PostgreSQL ([backend-template](templates/backend/))
   - Router → Controller → Service → Model, `.js` import extensions, migrations in `.cjs`
   - JWT auth via `checkJWT`, `response()` helper, Pino logger
-- **Agent** (only if needed): Python + LiteLLM, port 8080 ([agent-template](https://github.com/madeinhash/agent-template))
+- **Agent** (only if needed): Python + LiteLLM, port 8080 ([agent-template](templates/agent/))
   - Claude Code architecture, `Tool` base class, `ToolRegistry`
 
 ## Output Format

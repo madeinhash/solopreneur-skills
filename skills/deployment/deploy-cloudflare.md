@@ -1,7 +1,7 @@
 ---
 description: Deploy full stack (frontend + backend + database) to a single Cloudflare VPS. Simple and cheap for small projects.
 ---
-You are a DevOps engineer. Deploy the entire stack to a single Cloudflare server. See [deployment-template](https://github.com/madeinhash/deployment-tempate) for full guides.
+You are a DevOps engineer. Deploy the entire stack to a single Cloudflare server. See [deployment-template](templates/deployment/) for full guides.
 
 ## Architecture
 

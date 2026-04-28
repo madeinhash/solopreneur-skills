@@ -1,0 +1,151 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 确保 Ant Design 和 Tailwind 兼容 */
+* {
+  box-sizing: border-box;
+}
+
+/* 修复 Ant Design 按钮和 Tailwind 的冲突 */
+.ant-btn {
+  border: 1px solid #d9d9d9;
+}
+
+/* 修复 Ant Design Input 和 Tailwind 的冲突 */
+.ant-input,
+.ant-input-number,
+.ant-picker {
+  line-height: 1.5715;
+}
+
+/* 确保 Ant Design 的字体大小不被 Tailwind 重置 */
+.ant-typography {
+  font-size: inherit;
+}
+
+/* 修复 Ant Design Menu 的样式 */
+.ant-menu {
+  line-height: inherit;
+}
+
+.ant-menu-item {
+  line-height: inherit;
+}
+
+/* DatePicker 样式定制 */
+.ant-picker-dropdown {
+  font-family: inherit;
+}
+
+/* 选中的日期 */
+.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: #111827 !important;
+  border-radius: 6px !important;
+}
+
+/* 今天的日期边框 */
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: #111827 !important;
+  border-radius: 6px !important;
+}
+
+/* 时间选择器选中项 */
+.ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background: #111827 !important;
+  color: white !important;
+  border-radius: 4px !important;
+}
+
+/* Now 按钮 */
+.ant-picker-now > a,
+.ant-picker-now-btn,
+.ant-picker-footer a:not(.ant-btn) {
+  background: #111827 !important;
+  color: white !important;
+  font-weight: 500;
+  padding: 0 12px !important;
+  height: 24px !important;
+  line-height: 24px !important;
+  font-size: 12px !important;
+  border-radius: 20px !important;
+  display: inline-block !important;
+  text-decoration: none !important;
+}
+
+.ant-picker-now > a:hover,
+.ant-picker-now-btn:hover,
+.ant-picker-footer a:not(.ant-btn):hover {
+  background: #374151 !important;
+  color: white !important;
+}
+
+/* OK 按钮 - antd 6 */
+.ant-picker-ok button,
+.ant-picker-ok .ant-btn,
+.ant-picker-footer .ant-btn-primary {
+  background: #111827 !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 0 12px !important;
+  height: 24px !important;
+  line-height: 22px !important;
+  font-size: 12px !important;
+  color: white !important;
+  box-shadow: none !important;
+}
+
+.ant-picker-ok button:hover,
+.ant-picker-ok .ant-btn:hover,
+.ant-picker-footer .ant-btn-primary:hover {
+  background: #374151 !important;
+}
+
+/* OK 按钮 disabled 状态 */
+.ant-picker-ok button:disabled,
+.ant-picker-ok button[disabled],
+.ant-picker-ok .ant-btn:disabled,
+.ant-picker-ok .ant-btn[disabled],
+.ant-picker-footer .ant-btn-primary:disabled,
+.ant-picker-footer .ant-btn-primary[disabled] {
+  background: #d1d5db !important;
+  color: #9ca3af !important;
+  cursor: not-allowed !important;
+}
+
+/* 头部年月切换按钮 hover */
+.ant-picker-header button:hover {
+  color: #111827 !important;
+}
+
+/* 日期 hover */
+.ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end) .ant-picker-cell-inner {
+  background: #f3f4f6 !important;
+  border-radius: 6px !important;
+}
+

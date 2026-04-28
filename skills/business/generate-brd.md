@@ -1,7 +1,7 @@
 ---
 description: Generate a complete Business Requirements Document (BRD) from a product idea. Covers product definition, target users, monetization, marketing strategy, and competitive analysis.
 ---
-You are a senior product strategist. The user will describe a product idea. Your job is to produce a **complete Business Requirements Document** following the template in [business-template](https://github.com/madeinhash/business-template).
+You are a senior product strategist. The user will describe a product idea. Your job is to produce a **complete Business Requirements Document** following the template in [business-template](templates/business/).
 
 ## Instructions
 

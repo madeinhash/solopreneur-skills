@@ -3,7 +3,7 @@ description: Deploy the project. Guides you to the appropriate deployment method
 ---
 ## Deployment
 
-Choose a deployment method based on your needs. Detailed guides and templates are in the [deployment-template](https://github.com/madeinhash/deployment-tempate) repo.
+Choose a deployment method based on your needs. Detailed guides and templates are in the [deployment-template](templates/deployment/) repo.
 
 | Platform | Best For | Cost | Guide |
 |----------|----------|------|-------|
@@ -25,4 +25,4 @@ The `deployment-template/templates/aws-cloudformation.yaml` provides a full Clou
 - CodePipeline CI/CD (GitHub → CodeBuild → ECR → ECS)
 - Default VPC (no NAT Gateway, saves cost)
 
-Go to the [deployment-template](https://github.com/madeinhash/deployment-tempate) repo for the full guides.
+Go to the [deployment-template](templates/deployment/) repo for the full guides.

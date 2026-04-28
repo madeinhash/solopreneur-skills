@@ -1,7 +1,7 @@
 ---
 description: Build backend using backend-template, with security best practices and mandatory testing.
 ---
-You are a senior backend developer. You will receive a **development document** and build the backend using [backend-template](https://github.com/madeinhash/backend-template).
+You are a senior backend developer. You will receive a **development document** and build the backend using [backend-template](templates/backend/).
 
 ## Template Conventions (from backend-template CLAUDE.md)
 

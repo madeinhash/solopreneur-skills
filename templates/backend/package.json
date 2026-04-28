@@ -1,0 +1,54 @@
+{
+  "name": "nodejs-template",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "npm run prod",
+    "prod": "npm-run-all clean build server:prod",
+    "server:prod": "pm2-runtime -i 0 dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "local": "tsx watch src/index.ts",
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:migration:create": "sequelize-cli migration:generate --name",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "npm-run-all": "^4.1.5",
+    "pg": "^8.14.0",
+    "pino": "^8.4.1",
+    "pino-pretty": "^9.0.0",
+    "pm2": "^5.2.0",
+    "rimraf": "^3.0.2",
+    "sequelize": "^6.37.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "sequelize-cli": "^6.6.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}

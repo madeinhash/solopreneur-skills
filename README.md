@@ -1,65 +1,84 @@
 # Solopreneur Skills
 
-All-in-one AI skills for building, deploying, and launching a product. From idea to revenue.
+All-in-one AI toolkit for solopreneurs. From idea to revenue — business planning, development, deployment, all in one repo.
+
+Clone this repo, point AI at it, build your product.
 
 ## Workflow
 
 ```
-Idea → /generate-brd → Business Requirements Document
-                ↓
-     /generate-dev-doc → Development Document
-                ↓
-     /develop-backend  → Build API
-     /develop-frontend → Build UI
-     /develop-agent    → Build AI agent
-                ↓
-     /deploy           → Ship to production
-                ↓
-     /plan-launch      → Go to market
+Idea → /generate-brd        → Business Requirements Document
+            ↓
+       /generate-dev-doc     → Development Document
+            ↓
+       /develop-backend      → Build API
+       /develop-frontend     → Build UI
+       /develop-agent        → Build AI agent
+            ↓
+       /deploy               → Ship to production
+            ↓
+       /plan-launch          → Go to market
 ```
 
 ## Skills
 
 ### Business (`skills/business/`)
 
-| Skill | Description | Template |
-|-------|-------------|----------|
-| `generate-brd` | Generate Business Requirements Document from product idea | [business-template](https://github.com/madeinhash/business-template) |
-| `analyze-competitors` | Competitive landscape analysis | [business-template](https://github.com/madeinhash/business-template) |
-| `plan-launch` | Launch plan with channels, timeline, first 100 users | [business-template](https://github.com/madeinhash/business-template) |
+| Skill | Description |
+|-------|-------------|
+| `generate-brd` | Generate Business Requirements Document from product idea |
+| `analyze-competitors` | Competitive landscape analysis |
+| `plan-launch` | Launch plan — channels, timeline, first 100 users |
 
 ### Development (`skills/development/`)
 
-| Skill | Description | Template |
-|-------|-------------|----------|
-| `generate-dev-doc` | Generate development document from BRD or requirements | — |
-| `develop-frontend` | Build frontend from dev doc | [frontend-template](https://github.com/madeinhash/frontend-template) |
-| `develop-backend` | Build backend from dev doc (security + testing) | [backend-template](https://github.com/madeinhash/backend-template) |
-| `develop-agent` | Build AI agent from dev doc | [agent-template](https://github.com/madeinhash/agent-template) |
-| `setup-permissions` | Claude Code permission config for development | — |
+| Skill | Description |
+|-------|-------------|
+| `generate-dev-doc` | Generate development document from BRD or requirements |
+| `develop-frontend` | Build frontend from dev doc (+ UI UX Pro Max for design) |
+| `develop-backend` | Build backend from dev doc (security checklist + testing) |
+| `develop-agent` | Build AI agent from dev doc (Claude Code architecture) |
+| `setup-permissions` | Claude Code permission config |
 
 ### Deployment (`skills/deployment/`)
 
-| Skill | Description | Template |
-|-------|-------------|----------|
-| `deploy` | Deployment overview + guide to choose platform | [deployment-template](https://github.com/madeinhash/deployment-tempate) |
-| `deploy-aws` | ECS Fargate + ALB + RDS + CodePipeline (~$37/month) | [deployment-template](https://github.com/madeinhash/deployment-tempate) |
-| `deploy-cloudflare` | Single VPS full stack (~$6/month) | [deployment-template](https://github.com/madeinhash/deployment-tempate) |
-| `deploy-vercel` | Frontend on Vercel (free) | [deployment-template](https://github.com/madeinhash/deployment-tempate) |
+| Skill | Description |
+|-------|-------------|
+| `deploy` | Choose deployment platform |
+| `deploy-aws` | ECS Fargate + ALB + RDS + CodePipeline (~$37/month) |
+| `deploy-cloudflare` | Single VPS full stack (~$6/month) |
+| `deploy-vercel` | Frontend on Vercel (free) |
 
-## All Repos
+## Templates
 
-| Repo | What |
-|------|------|
-| [frontend-template](https://github.com/madeinhash/frontend-template) | Next.js 15 + React 19 + Ant Design 6 + Tailwind CSS 4 |
-| [backend-template](https://github.com/madeinhash/backend-template) | Express + TypeScript + Sequelize + PostgreSQL |
-| [agent-template](https://github.com/madeinhash/agent-template) | Python + LiteLLM + Claude Code architecture (port 8080) |
-| [business-template](https://github.com/madeinhash/business-template) | BRD, pricing strategy, launch plan templates |
-| [deployment-template](https://github.com/madeinhash/deployment-tempate) | AWS CloudFormation, Cloudflare VPS, Vercel guides |
-| [claudecode-source-code](https://github.com/madeinhash/claudecode-source-code) | Claude Code source (agent architecture reference) |
+All templates are included in this repo — no separate repos needed.
 
-## External Skills
+```
+templates/
+├── frontend/       # Next.js 15 + React 19 + Ant Design 6 + Tailwind CSS 4
+├── backend/        # Express + TypeScript + Sequelize + PostgreSQL
+├── agent/          # Python + LiteLLM + Claude Code architecture (port 8080)
+├── business/       # BRD, pricing strategy, launch plan document templates
+└── deployment/     # AWS CloudFormation, Cloudflare VPS, Vercel guides
+reference/
+└── claude-code.md  # Claude Code source reference for agent architecture
+```
 
-| Skill | What |
-|-------|------|
-| [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | AI-powered UI/UX design (required for frontend development) |
+## Quick Start
+
+```bash
+git clone https://github.com/madeinhash/solopreneur-skills.git
+cd solopreneur-skills
+
+# Start a new project — copy the template you need
+cp -r templates/frontend ../my-project-frontend
+cp -r templates/backend ../my-project-backend
+cp -r templates/agent ../my-project-agent    # if needed
+```
+
+## External Dependencies
+
+| What | Link | Required For |
+|------|------|-------------|
+| UI UX Pro Max | [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | Frontend design decisions |
+| Claude Code Source | [claudecode-source-code](https://github.com/madeinhash/claudecode-source-code) | Agent architecture reference |

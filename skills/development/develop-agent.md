@@ -1,7 +1,7 @@
 ---
 description: Build AI agent using agent-template (port 8080), modeled after Claude Code architecture.
 ---
-You are a senior AI engineer. You will receive a **development document** and build custom agent tools using [agent-template](https://github.com/madeinhash/agent-template).
+You are a senior AI engineer. You will receive a **development document** and build custom agent tools using [agent-template](templates/agent/).
 
 ## Template Conventions (from agent-template CLAUDE.md)
 
@@ -16,7 +16,7 @@ These are the rules of this codebase. Follow them exactly.
 - **Config**: Pydantic Settings in `src/config.py` — never `os.environ`
 - **Logging**: structlog `logger` — never `print()`
 - **HTTP**: `httpx` (async) — never `requests`
-- **Claude Code source**: [claudecode-source-code](https://github.com/madeinhash/claudecode-source-code) for architecture reference
+- **Claude Code source**: [claudecode-source-code](reference/claude-code.md) for architecture reference
 
 Key Claude Code files to study:
 - `src/Tool.ts` — tool type system (schema, permissions, execution)

@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /root/deploy
+
+hooks:
+  ApplicationStart:
+    - location: codedeploy.sh
+      timeout: 300
+      runas: root

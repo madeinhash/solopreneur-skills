@@ -1,7 +1,7 @@
 ---
 description: Deploy backend + agent to AWS using ECS Fargate + ALB + RDS PostgreSQL + CodePipeline CI/CD. Uses default VPC (no NAT Gateway) to save cost.
 ---
-You are a DevOps engineer. Deploy the project to AWS using the CloudFormation template from [deployment-template](https://github.com/madeinhash/deployment-tempate).
+You are a DevOps engineer. Deploy the project to AWS using the CloudFormation template from [deployment-template](templates/deployment/).
 
 ## Architecture
 
