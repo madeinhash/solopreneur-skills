@@ -1,6 +1,6 @@
-# Deployment Template
+# Deployment Templates
 
-Deployment skills and infrastructure templates for the full-stack template ecosystem.
+Infrastructure templates and deployment guides.
 
 ## Deployment Options
 
@@ -32,17 +32,8 @@ Vercel (frontend only)
 ## Files
 
 ```
-skills/
-├── deploy-aws.md              # AWS deployment guide
-├── deploy-cloudflare.md       # Cloudflare VPS deployment guide
-└── deploy-vercel.md           # Vercel frontend deployment guide
 templates/
 └── aws-cloudformation.yaml    # Full AWS infrastructure as code
 ```
 
-## Related Templates
-
-- [frontend-template](https://github.com/madeinhash/frontend-template) — Next.js 15 + React 19
-- [backend-template](https://github.com/madeinhash/backend-template) — Express + TypeScript + PostgreSQL
-- [agent-template](https://github.com/madeinhash/agent-template) — Python + LiteLLM (port 8080)
-- [solopreneur-skills](https://github.com/madeinhash/solopreneur-skills) — All product skills (development, deployment, business)
+Deployment skills are in `skills/deployment/`.
